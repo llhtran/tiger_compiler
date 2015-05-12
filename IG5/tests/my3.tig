@@ -1,0 +1,5 @@
+let
+	function dp(a:string,b:string,c:string) = (print(a);print(b);print(c))
+in
+	dp("Lien\n","Tran\n","Yale\n")
+end

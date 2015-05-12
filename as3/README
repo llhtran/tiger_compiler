@@ -1,0 +1,30 @@
+(* CPSC 421 Compilers and Interpreters Spring 2015*)
+(* Student: Lien Tran BR 2016 *)
+(* Assignment #3 due February 11th 2015 *)
+(* README file *)
+
+- Once again, the documentation in the manual and the book was 
+incredibly lacking. It was not so much using the language, but 
+actually covering all the grammatical features given the documentation
+that was particularly challenging. This homework was a great test of
+patience and endurance. 
+- I built the program from the bottom up and unit tested them as I
+went so I never had more than 50 conflicts at a time, which wasg good.
+- Operators were pretty straightforward. I resolved conflicts with 
+precedence specification.
+- Declarations I pretty much took from the book, and they worked well. 
+- More complex structure like LET IN END or FOR DO WHILE DO gave me a
+few conflicts that I resolved by adding precedence to some keywords. I am 
+still a little hesitant about some of the approaches, because they worked
+but may not be airtight. I might go to office hours to ask about this later. 
+- The hardest thing to do was handling lvalues. Not because the task was 
+particularly challenging, but I could not eliminate my sole shift/reduce 
+conflict in this homework despite hours spent debugging and trying to come
+up with solutions. It isn't harmful, but I'd still like to get it out of 
+my sight. The explanation for this conflict I wrote as a comment in the 
+tiger.grm file.
+- I am submitting my tiger.grm file with my tiger.lex. I built my parser 
+using the one given to the class by Professor Shao, but after I was done I
+switched to my own lexer and it seems to work just fine. Hopefully it will
+continue to work when it is being graded, because I do like the idea of 
+building my own lexer from A-Z. It feels much more adventurous this way!

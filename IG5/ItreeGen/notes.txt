@@ -1,0 +1,49 @@
+Notes on ItreeGen
+
+- escape has meaning for formal parameters, can be ignored for record fields (page 100)
+- a variable escapes if it is passed by reference, its address is taken, or it is accessed from a nested function (page 132)
+- An industrial-strength compiler must assign provisional locations to all formals and locals, and decide later which of them should really go in registers (page 132)
+
+- frame has a set of incoming arguments passed by the caller
+- return address created by the CALL instruction and tells where control should return
+- local variables are kept in frame or in registers
+- sometimes local variable in a register needs to be saved into frame
+- use outgoing argument space to pass parameters when calling other functions
+
+Upon entry to new function
+- stack pointer (of caller) points to first argument being passed
+- allocates a frame by subtracting frame size from stack pointer
+- old SP becomes current FP
+
+On passing arguments
+- (page 130) A straightforward approach would be for the caller to pass arguments a1-k in registers and ak+1 - an at the end of its own frame. 
+- Calling function reserves space for register arguments in its own frame, next to where it write ak+1. However, it does not write anything into it. This space is written into by the called function. 
+
+Return address
+- if call instruction is at address a, then return address is usually a+1
+
+Temporaies and Labels
+- Temps are abstract name for local variables
+- Labels are abtract names for static memory addresses
+
+Static links
+- handled by Translate
+- passed in register and then stored into the frame
+
+escape - A variable escapes if it is passed by reference or is accessed from a nested function
+temporary - a value that is temporarily held in a register; abstract names for local variables
+label - machine language location whose exact address is yet to be determined; abstract names for static memory addresses
+
+TRANSLATE handles nested scopes (satic function nesting), local variables
+
+CHAPTER 7
+
+QUESTIONS
+- Where to call newFrame?
+- where to call allocInFrame?
+- there's an allocInRegister? WHERE?
+- why do we only need the number of formals fields
+- (pg 131) Whith call-by-reference, there can be no "dangling reference" since y must disappear when f returns, and f returns before x's scope ends?
+- How do we figure how many to pass in registers / stack? 
+- The book's implementation is not exactly the code that Shao gave us...
+

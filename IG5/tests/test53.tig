@@ -1,0 +1,4 @@
+(if 1=0 
+  then  if 1=1  then print("5\n") else print("6\n")
+  else  if 1<>0 then print("7\n") else print("8\n");
+ 1)

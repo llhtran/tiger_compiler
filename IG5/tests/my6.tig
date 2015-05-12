@@ -1,0 +1,9 @@
+let
+	type arr = array of int
+	var arr1:arr := arr[5] of 0
+in
+	arr1[0] := 1;
+	arr1[3] := 5;
+	if arr1[0] = arr1[3] then print("fail") else print("success\n")
+end
+

@@ -1,0 +1,56 @@
+(* CPSC 421 Compilers and Interpreters Spring 2015*)
+(* Student: Lien Tran BR 2016 *)
+(* Assignment #5 due March 4th 2015 *)
+(* README *)
+
+PROGRESS
+- I started this assignment way too late. I admit that I have paid dearly for 
+this. I did not expect this to be such a challenge. 
+- Handling transty was the easiest out of all the skeleton code, though I had
+to make some changes along the way as I incorporated transdec.
+- The bulk of transexp is fairly simple. The most difficult ones were for 
+breaks, for loops, assignment, especially to handle small features like illegal
+assignment to loop counter, or break statements in function declarations. 
+- Type declarations and function declarations were particularly difficult. I
+spent 6+ hours on recursively type declarations because I had a lot of 
+difficulty grasping ref and detecting cycles. Function declarations were
+comparable in the amount of pain inflicted.
+- I also made the mistake of not reading the book carefully enough. As I worked
+on handling declarations on my own, it was a while before I remembered that 
+the book basically gave the code for this part of the assignment. 
+
+FEATURES
+- Error reporting: I consistently returned T.UNIT for most errors, except in
+cases where the types needed to match ie. T.INT for some cases. There are errors
+that are repeated in various forms because they violate things at different 
+levels that I not have been able to catch, such as test06.tig. Specifically, 
+if a record expression has an undefined variable, then both an error for the 
+variable and an error for the record will show up. I believe this is 
+reasonable. 
+
+- Function and type declarations: I preprocessed both types of declarations to 
+gets names into the environments, and then once again to update to the correct
+types and functions, otherwise report errors.
+
+- SimpleVar, FieldVar and SubscriptVar were fairly simple recursions.
+
+- The way that I would get actual types would be through using actual_ty
+and actualy_ty_helper, quite profusely throughout the program.
+
+- I wrote comparison functions such as sameType and sameList to make it easier
+to make comparisons.
+
+- For break statements, I use a counter to take note of the nested scope levels.
+This got a little tricky with break statements within function declarations, 
+because then I need to start new counters. For this I used a list of counters 
+that would add on to the list if I came into a new scope.  
+
+- For for loops, I avoid assigning to loop counter by introducing the boolean
+parameter iter (for iterator aka loop counter) in VARentry and only assign
+true to them if the variable is a loop counter.
+
+- I do not assume that an illegal function call returns INT, as is in test10,
+as this causes for my type-checker to through illogical errors elsewhere. 
+As a result there are more error messages returned for this test.
+
+- I used Professor Shao's parser for this assignment.

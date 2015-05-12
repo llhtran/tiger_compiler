@@ -1,0 +1,15 @@
+QUESTIONS FOR SHAO
+- How to handle lvalues? 
+- How to handle errors? For me, some errors just get edited automatically by deletion.
+- Why is there a conflict by introducing nonterm "el" to handle IF THEN case? 
+- How does introducing assoc for THEN resolves the conflict
+- How to implement break?
+
+
+NEED TO WORK ON
+- Dangling SEMICOLONS
+- Lvalues
+- Assignment: (a:=b)+c is illegal yet?
+- What to return to test 9?
+
+%left LPAREN RPAREN LBRACK RBRACK DOT

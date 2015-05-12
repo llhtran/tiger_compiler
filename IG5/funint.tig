@@ -1,0 +1,9 @@
+let
+	function name(n:int):int = n+3
+in
+	let
+		var x:=name(3)
+	in 
+		if x > 5 then print("yaya\n")
+	end
+end

@@ -1,0 +1,20 @@
+QUESTIONS for SHAO
+newLevel in Translate: why return (level * (('a * access) list))?
+What is the offset list in frame?
+Page 130: Why do we need to save incoming arguments to local vars again? are they already in memory by being incoming arguments on the stack?
+Page 130: What's a dangling reference?
+Page 135: Abstract signature Frame - how is it actually machine specific?
+What do you think about us implementing the book version of things?
+Page 135-136: parameters may be seen differently caller / callee?
+Page 136: label at which the function's machine code is to begin? Page 137 example?
+Page 138: Space is still reserved in frame? Doesn't that space get taken up if there's another local variable to be allocated and that space already "end"ed? Shouldn't the fram get rid of that space when variable goes out of scope?
+Page 140: Hypothetically, if I was using the book's design, what should I put in for string? 
+Page 142: Is passing the static link as extra parameter to newFrame the best way to do it? Must this be negotiated with CodeGen? 
+Page 143: What is outermost? Is it just an int? Library functions don't contain frame or formal parameter list? How come we won't be generating code for library functions? 
+
+How to get rid of ESEQ (did in class, but forgot...)
+intExp example: what should the return type be? What's actually going on?
+What is Temp.label for name in PROC in frame?
+What is val FP in frame? How do we actually get the frame pointer in frame?
+In translate.sml, unEx : gexp -> Tr.exp doesn't work because Tree hidden. What to do?
+Why is there no output for my test, where input = 5?

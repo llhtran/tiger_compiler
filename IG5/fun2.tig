@@ -1,0 +1,6 @@
+let
+	function add(n:int):int= (print("Lien");n) 
+in
+	add(5)
+end
+

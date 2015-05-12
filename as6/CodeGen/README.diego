@@ -1,0 +1,36 @@
+Diego Torres Quintanilla
+diego.torres@yale.edu
+CodeGen Module
+
+i) I have thus far fully implemented codegen.sml and register.sml. This module
+is now known to have fully compiled code using IG4 and RAY.
+
+ii) My code can be used by simply moving the codegen.sml and register.sml files
+into your folder. As for writing your main, I can give you some tips.
+
+Tip 1: The assembly files that you generate have to look like this:
+.section	.rodata
+	.align 4
+<DATA SECTION>
+.text
+.globl tigermain
+	.type	tigermain,@function
+<INSTRUCTION SECTION>
+
+Main is responsible for making sure that the data assembly lines make it into
+the data section, and that assembly instructions end up in the instruction
+section. In order to achieve this, my compile function in main.sml partitions
+that fragment list output by transprog into data fragments and proc fragments.
+After that, it prints out the first two lines of the header, then processes the
+data fragments, then prints the next three lines of the header, then processes
+all proc fragments.
+
+
+iii) All the assumptions I have made are concisely stated in register.sml.
+Please look there.
+
+iv) I would like a well documented RegAlloc, because RAY, the RegAlloc module
+that I am currently using (and the only one that exists), does not provide any
+documentation.
+
+v) I have not made any extra changes.

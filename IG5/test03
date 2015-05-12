@@ -1,0 +1,6 @@
+let
+	type a = array of int
+	var myArray : a := a[5] of 7
+in
+	myArray[0]
+end

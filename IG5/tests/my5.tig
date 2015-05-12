@@ -1,0 +1,9 @@
+let
+	function add11(n:int):int = n+11
+	function hey(n:int) : int = 
+		(let var x:=add11(n) in x end)
+	var a:=0
+in
+	a:=hey(3);
+	if a = 14 then print("success\n") else print("fail\n")
+end

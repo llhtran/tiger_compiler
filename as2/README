@@ -1,0 +1,27 @@
+(* CPSC 421 Compilers and Interpreters Spring 2015*)
+(* Student: Lien Tran BR 2016 *)
+(* Assignment #2 due February 4th 2015 *)
+(* README file *)
+
+ASSIGNMENT REPORT
+- Handling comments: I created a separate state for handling comments. to get
+to the COMMENT state, one must be in an INITIAL state. Nested comments were 
+dealt with by maintaining a global variable "comm" to keep track of how many
+levels the comments are nested.
+- Handling strings: Easily the hardest part of the assignment. To get to the
+STRING state one must be in an INITIAL state. From STRING, one can get to the
+ESCAPE and CONTROL states, which were created to handling escape characters and
+control characters accordingly. Escape characters prompt the DFA to enter 
+the ESCAPE state from the STRING state, whereby the action will be to 
+concatenate the string with appropriate characters that were escaped. Control
+characters were dealt with separately through a CONTROL state as well, with an
+accompanying function that serves to convert the control character, get their
+values, and make sure that they were valid. 
+- Error handling: Error handling arises when there are unterminated strings, 
+comments, invalid control codes, invalid ASCII character being escaped, 
+invalid characters being used. There isn't really a systematic approach to 
+handling errors in this program--they were more a side effect of the 
+programming process and were added as more functionalities were implemented. 
+- End-of-file handling: The only catch is to make sure that there are no 
+unterminated strings or comments. This is done by adding a global bool to make
+sure the state of the automata must be INITIAL at the end of file.

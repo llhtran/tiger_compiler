@@ -1,0 +1,18 @@
+(* CPSC 421 Compilers and Interpreters Spring 2015*)
+(* Student: Lien Tran BR 2016 *)
+(* Assignment #1 due February 4th 2015 *)
+(* dist.txt *)
+
+2.8 pg 36
+PART A
+2 characters past the end of a token. We can illustrate this by using
+the longest possible path in the DFA. Supposed we took the route 1->5->6->7, 
+it will be able to decide what the token is by the next character: the token
+either ends in state 5 or state 8. 
+
+PART B
+Consider expression 5e-. Lex will have to examine 3 characters, whereupon the
+next character will decide the accepting state. Suppose this next character
+is not a digit, then the accepting state cannot be 8, and therefore we end up 
+with tokens 5 (accepted by state 5), e (accepted by state 2) and - (accepted 
+by state 4). From this, our input file could be: 5e-x.

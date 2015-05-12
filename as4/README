@@ -1,0 +1,46 @@
+(* CPSC 421 Compilers and Interpreters Spring 2015*)
+(* Student: Lien Tran BR 2016 *)
+(* Assignment #4 due February 18th 2015 *)
+(* README *)
+
+- The documentation for the syntax for this is quite terrible. I read the book,
+read the manual, and still had no idea how to use ML-Yacc in order to code
+something to build the abstract syntax. I had to ask around a lot and dug around 
+online before I had any idea of how to correctly declare types and use the
+semantic actions as defined in Absyn. 
+
+- I had to make a few changes to my original parser in order to make the
+semantic actions work:
++ I added params and params2 in order to handle function calls. Originally I
+used tyfields instead of params, but params required a formals type instead of
+just a tfield. Therefore my params and params2 are basically just tyfields and
+tyfields2, except for the addition of the escape parameter. 
++ I added fundecs to deal with lists of functions. Initially this wasn't 
+necessary because I could hanlde list of functions anyways with fundec @ decs, 
+but without fundecs of A.fundec list I wasn't able to group consecutive 
+functions together. 
++ I added decs. Previously I found that I could just stick dec (not list) on 
+top of each other, but that didn't work with this assignment because I 
+couldn't get my types matched up correctly. I even eliminated a case that 
+didn't actually exist because I misread the Tiger manual in the book (LBRACE
+decs RBRACE).
+
+- I somehow got rid of my previous shift/reduce conflict and introduced 2 new
+ones. These have to do with grouping function and type declarations together. 
+Since the default behavior for these conflicts is to shift, this is exactly 
+what we want to do because we want to group as many function and type 
+declarations together as possible, in order deal with mutually recursive types. 
+Therefore I did not get rid of these conflicts. 
+
+- Handling lvalues were the hardest. The way that I set up my lvalues meant
+that I had to make auxiliary functions to actually get all the correct 
+arguments in one place and then pass it into one of the Absym functions. I did
+not know this was possible, and I definitely did not know how to do it. I 
+struggled with this for a long time, until I found something online that helped
+me figure out how to do it. I ended up writing a recursive function that dealt 
+with each SimpleVar, FieldVar and Subscript case separately. Most complicated
+thing I've ever written. 
+
+- The rest of the work was mostly debugging and figuring out type mismatches.
+This took a while but at least by this point I had kind of figured out what to
+do. All of my outputs for the 6 tests match with the provided answers. 

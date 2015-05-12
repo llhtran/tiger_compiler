@@ -1,0 +1,8 @@
+val dummyFrame = {formals= 0, offlst= [0], locals= ref(0), maxargs= ref(0)}
+
+val dummyTree = Tr.MOVE(Tr.MEM(Tr.BINOP(Tr.PLUS, Tr.MEM(Tr.BINOP(
+                    Tr.PLUS, Tr.TEMP(R.FP), Tr.CONST 4), 1),
+                  Tr.BINOP(Tr.MUL, Tr.TEMP(T.newtemp()), Tr.CONST 4)), 1),
+                  Tr.MEM(Tr.BINOP(Tr.PLUS, Tr.TEMP(R.FP), Tr.CONST(9)), 1))
+
+val dummyFrag = F.PROC {name= Symbol.symbol "a", body=dummyTree, frame= dummyFrame}

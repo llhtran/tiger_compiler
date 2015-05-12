@@ -1,0 +1,7 @@
+let
+	var x:=5
+in
+	while x<10 do
+ 		break
+end
+		

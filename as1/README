@@ -1,0 +1,37 @@
+(* CPSC 421 Compilers and Interpreters Spring 2015*)
+(* Student: Lien Tran BR 2016 *)
+(* Assignment #1 due January 28th 2015 *)
+(* README file *)
+
+
+ASSIGNMENT REPORT
+- Both parts were relatively intuitive to think about once the
+concepts of mutually exclusive functions were grasped. The 
+recursion involved is a pretty elementary review of the things
+covered in CPSC 201 with Scheme.
+- For maxargs, the idea is to simply use pattern matching to
+match up statements and expressions, and from there call on the
+functions recursively to get integer return values, compare
+them, and select the greater one. Base cases come from dealing
+with the PRINT statements and using recursion to get the max
+number of arguments out from it, as well as evaluating the
+expressions VAR and CONST. 
+- For interp, the work lies partially in figuring out a good way
+to represent a table (in this case using lists--I tried tuples
+before this but the task becaming very annoying because I get 
+too many syntax errors when I tried). To use this table, update
+and lookup operations were written, sort of like building 
+a database. binop and interpPrtLst were written to deal with
+arithmetic operations and printing. The rest of the work is 
+actually writing interpStm and interpExp, which wasn't that much
+different from maxargs, with the exception of having to be able
+write procedural functions to compute exp values and new 
+tables in order to use them in a recursive call. It took me a 
+while to find the let-in-end structure to use, but after that
+the job became significantly easier. interp() function acts
+as a wrapper that sends statements to interpStm. 
+- Had difficulty learning SML. The language is rather poorly 
+documented so it was hard to figure out what's going on when
+the program doesn't work, and it's even harder to find useful
+functions (ie. took me a while to find the function to transform
+int -> string).

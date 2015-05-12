@@ -1,0 +1,14 @@
+let
+	function g() = print("Lien\n")
+in
+	let
+		function h() = 
+		let 
+			function k() = g()
+		in
+			k()
+		end
+	in
+		h()
+	end
+end

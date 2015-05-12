@@ -1,0 +1,2 @@
+Skeleton 5
+d3f6d"List"Cd"TextIO"d"Assem"d"Canon"d"Parse"ä¢Register"Naã¢MAIN"h0ad"Main"jh5Cad"Semant"jçğ±ÿ-gp1e"SemantGen"ad"RegAlloc"jÿgp1e"RegAllocGen"aä¢C"gp1d"Codegen"aä¢F"gp2ÿ‚ÿ‚"ad"T"gp1d"Temp"Ngp1ÿ:

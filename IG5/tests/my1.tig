@@ -1,0 +1,6 @@
+let
+	function what(a:int,b:int):int = (a+b)*a
+	var x:= what(3,5)
+in
+	if x = 24 then print("amazing") else print("die")
+end

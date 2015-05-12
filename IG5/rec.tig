@@ -1,0 +1,6 @@
+let
+	type rec = {index:int,value:string}
+in
+	:q
+
+end

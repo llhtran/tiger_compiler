@@ -1,0 +1,2 @@
+for id := 1 to 3 do
+  (if id = 3 then break else print("Lien\n"))

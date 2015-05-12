@@ -1,0 +1,94 @@
+(* CPSC 421 Compilers and Interpreters Spring 2015*)
+(* Student: Lien Tran BR 2016 *)
+(* Assignment #3 due February 11th 2015 *)
+(* Extra credit *)
+
+(* Context-free grammars are natural tools for generating permutations 
+of sets because of its inherent recursive characteristic. However, 
+to generate permutations with non-repeating elements is a more challenging
+task. Below, I've given a short grammar that can parse through all 
+permutations of the keywords {public, final, static, synchronized, transient},
+but with repetition.
+
+The method I have to fix this using parsing involves defining more specific 
+terminals so that their elements don't repeat. For example:
+
+S = {public, final, static, synchronized, transient}
+one : X such that X is in S 
+two : one X such that X is in S\{elements in one} 
+three : two X such that X is in S\{elements in two}
+four: three X such that X is in S\{elements in three}
+five: four X such that X is in S\{elements in four} 
+
+Though to code this grammar in ML-Yacc is something I don't quite yet know 
+how to do, so I couldn't include it here.
+
+In a compiler, one could avoid this difficulty in defining the grammar for
+permutations without repetition by simply adding a semantic phase where 
+repetitions in a permutation gets recognized and eliminated. This is the
+easiest way to implement that functionality. Another approach could be to 
+customize the programming language, ie. of ML-Yacc, to be able to handle
+set operators more explicitly and use that to formalize the grammar I 
+specified above--though this is probably a more time-consuming and difficult
+task. 
+
+Some quick Googling shows that this is reflected in the literature as well. 
+Most sources discuss methods to generate all permuatations but not for 
+permutations without repetition. 
+
+*)
+
+%%
+%term public | final | static | synchronized | transient
+
+
+%nonterm one | two | three | four | five
+
+%pos int
+%verbose
+%start permutations
+%eop EOF
+%noshift EOF
+
+%left public final static synchronized transient
+
+%name Extra
+
+%%
+
+permutations : five ()
+
+five :
+	  four public
+	| four final
+	| four static
+	| four synchronized
+	| four transient
+
+four :
+	  three public
+	| three final
+	| three static
+	| three synchronized
+	| three transient
+
+three : 
+	  two public
+	| two final
+	| two static
+	| two synchronized
+	| two transient
+
+two : 
+	  one public
+	| one final
+	| one static
+	| one synchronized
+	| one transient
+
+one : 
+	  public 
+	| final
+	| static
+	| synchronized
+	| transient

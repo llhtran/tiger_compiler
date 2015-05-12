@@ -1,0 +1,311 @@
+Assignment 6. CodeGen: Jason Liu (jason.liu@yale.edu). CG7. 22 March 2015
+===============================================================================
+
+    -----------------------------------------------------------------------
+   /                                                                       \
+   |     _______  _______  ______   _______  _______  _______  _           |
+   |    (  ____ \(  ___  )(  __  \ (  ____ \(  ____ \(  ____ \( (    /|    |
+   |    | (    \/| (   ) || (  \  )| (    \/| (    \/| (    \/|  \  ( |    |
+   |    | |      | |   | || |   ) || (      | |      | (      |   \ | |    |
+   |    | |      | |   | || |   | || (__    | | ____ | (__    | (\ \) |    |
+   |    | |      | |   | || |   ) ||  __)   | | \_  )|  __)   | | \   |    |
+   |    | (____/\| (___) || (__/  )| (____/\| (___) || (____/\| )  \  |    |
+   |    (_______/(_______)(______/ (_______/(_______)(_______/|/    )_)    |
+   |                                                                       |
+   |                                                                       |
+   |                  ___           ___                                    |
+   |                 /  /\         /  /\     77777777777777                |
+   |                /  /:/        /  /:/_    7::::::::::::7                |
+   |               /  /:/        /  /:/ /\   777777777::::7                |
+   |              /  /:/  ___   /  /:/_/::\          7::::7                |
+   |             /__/:/  /  /\ /__/:/__\/\:\        7::::7                 |
+   |             \  \:\ /  /:/ \  \:\ /~~/:/       7::::7                  |
+   |              \  \:\  /:/   \  \:\  /:/       7::::7                   |
+   |               \  \:\/:/     \  \:\/:/       7::::7                    |
+   |                \  \::/       \  \::/       7::::7                     |
+   |                 \__\/         \__\/       777777                      |
+   |                                                                       |
+   \                                                                       /
+    -----------------------------------------------------------------------
+
+                              __---__
+                            _-       /--______
+                       __--( /     \ )XXXXXXXXXXX\v.
+                     .-XXX(   O   O  )XXXXXXXXXXXXXXX-
+                    /XXX(             )        XXXXXXX\
+                  /XXXXX(       O      )--_  XXXXXXXXXXX\
+                 /XXXXX/ (            )   XXXXXX   \XXXXX\
+                 XXXXX/   /            XXXXXX   \__ \XXXXX
+                 XXXXXX__/          XXXXXX         \__---->
+         ---___  XXX__/          XXXXXX      \__         /
+           \-  --__/   ___/\  XXXXXX            /  ___--/=
+            \-\    ___/    XXXXXX              '--- XXXXXX
+               \-\/XXX\ XXXXXX                      /XXXXX
+                 \XXXXXXXXX   \                    /XXXXX/
+                  \XXXXXX      >                 _/XXXXX/
+                    \XXXXX--__/              __-- XXXX/
+                     -XXXXXXXX---------------  XXXXXX-
+                        \XXXXXXXXXXXXXXXXXXXXXXXXXX/
+                          ""VXXXXXXXXXXXXXXXXXXV""
+
+
+=======================================================================
+
+Thank you for looking at (and hopefully using) my CodeGen project!
+Here are some notes for this assignment:
+
+1) Installation and management of the codebase:
+
+    This project is designated CG7, so the associated files can be found in:
+      /c/cs421/as/Public/6[a-e]/CG7.
+    However, the most recent files will always be found in:
+      /c/cs421/as/Public/cur/CG7.
+    The 6[a-e] directories only contain snapshots of the code based on the
+    deadlines so they are likely not up-to-date.
+
+    To obtain a copy of this module:
+
+      A) Preferred way, a simple copy:
+
+    $ cp -r /c/cs421/as/Public/cur/CG7/* CodeGen/
+
+      B) Alternate way, with git:
+
+    I kind of messed up the repo, so please just copy the files over normally.
+
+    Please let me know (via email) if this installation process does not work.
+
+2) Assembly specification:
+
+    This project generates assembly for only the Zoo machines. As a result,
+    the code generated is not guaranteed to work on any other machines.
+    Here is the result of `uname -a` on one of the machines: (RHEL 7.0-based)
+
+    Linux zebra.zoo.cs.yale.edu 3.10.0-123.8.1.el7.x86_64 #1 SMP
+    Mon Aug 11 13:37:49 EDT 2014 x86_64 x86_64 x86_64 GNU/Linux
+
+    Also, note that we are using 32-bit assembly instead of 64-bit assembly,
+    though the Zoo machines themselves are 64-bit. As a result, the code
+    will have to be compiled with the command `gcc -S -m32 runtime.c *.tig.s`.
+
+    Finally, note that AT&T syntax is used here. Support for Intel syntax is
+    not likely to be added, primarily due to the difficulty of simultaneously
+    supporting both instruction sets.
+
+    To generate some sample AT&T assembly to look at, run:
+
+      $ gcc -S -m32 -fno-asynchronous-unwind-tables main.c
+
+    If you want to generate Intel assembly to look at, append -masm=intel
+    to the list of options.
+
+3) Bug reports:
+
+    If there are any bugs that you find in the software, please email them to
+    me as soon as possible. (Use the email address at the top of the README).
+
+    First, try running `git pull` to get the latest version and see if
+    that fixes the issue.
+
+    If possible, try to include the following information in the email:
+
+      < short summary of the bug >
+
+      I tried this program:
+
+      < code sample that causes the bug >
+
+      I expected to see this happen < explanation >
+
+      ... But this happened < explanation >
+
+      Please also include the latest commit hash that includes this bug.
+      You can get this by running:
+
+        $ git log --abbrev-commit | head -n 1
+
+      Please preface the subject of the email with cs421 for easy identification.
+      Thanks!
+
+=======================================================================
+
+Appel Ch. 9, pp 207-209; Appel Ch. 12, pp 260-262.
+
+To understand the scope of CodeGen, we must first look at the scope of the
+other two projects, ItreeGen and RegAlloc.
+
+* ItreeGen (Chapter 6 and Chapter 7); includes handling Frames and translation
+  from Absyn into the Intermediate code trees.
+
+    Here, we augment semant.sml for allocations of local variables, and keep
+    track of the nesting level.  The translate module is also implemented.
+
+    Semant calls upon Translate in the following sequence:
+      Semant.transprog : Absyn.exp -> Frame.frag list
+
+    And, as we know from ItreeGen/frame.sml, a Frame.frag is defined as:
+      datatype frag = PROC of {name : Temp.label, body: Tree.stm, frame: frame}
+                    | DATA of {lab : Temp.label, s: string}
+
+    A PROC frag represents a procedure, which is the same as a function. Its
+    record has a name of type Temp.label (aka Symbol.symbol), a body with the
+    type Tree.stm (we put the return value of the function in the correct
+    register) and a frame of type frame (which lets us know about the arguments
+    of the function).
+
+    A DATA frag represents a string literal. It also has a lab of type
+    Temp.label (aka Symbol.symbol) and a s of type string. From runtime.c, we
+    represent these strings as a struct, with a length and array of
+    separate characters.
+
+* CodeGen (Chapter 9 and Chapter 12), includes Instruction Selections and
+  Procedure Entry/Exit sequence.
+
+    The job of CodeGen is to take the Frame.frag list and convert it into a
+    list of assembly language instructions. We use the Maximal Munch
+    translation algorithm from IR trees to the Assem structure. We use the
+    Canon structure to simplify the trees before assigning them to assembly
+    language.
+
+    First, we use the Canon structure to simplify: (see canon.sml for details)
+      Canon.linearize : Tree.stm -> Tree.stm list
+      Canon.basicBlocks : Tree.stm list -> (Tree.stm list list * Temp.label)
+      Canon.traceSchedule : Tree.stm list list * Temp.label -> Tree.stm list
+
+    CodeGen calls upon itself in the following sequence:
+      CodeGen.codegen : Tree.stm -> Assem.instr list
+
+    One caveat is that we have to do register allocation before completing
+    the final assembly code, as our Assem.list will have "dummy" register
+    names. To prepare for this, we allocate a table of "temp" registers
+    and try to find them in the table if possible, or else print out a .string
+    reference. We also create a list of registers (specialregs, argregs,
+    calleesaves, callersaves), which are all architecture-specific.
+
+* RegAlloc (Chapter 10, Chapter 11), includes the Flowgraph construction,
+  Liveness analysis (building Interference Graph), and then do the Register
+  Allocation.
+
+    Here, we take an Assem.instr list (list of assembly instructions) and
+    implement the MakeGraph module, which turns the list into a flow graph.
+
+    datatype flowgraph
+      = FGRAPH of {control: Graph.graph,
+                   def: Temp.temp list Graph.Table.table,
+                   use: Temp.temp list Graph.Table.table,
+                   ismove: bool Graph.Table.table}
+
+    Afterwards, we implement the Liveness module through one of a variety of
+    different algorithms.  This gives us an igraph:
+
+    datatype igraph
+      = IGRAPH of {graph : Graph.graph,
+                   tnode : Graph.node Temp.Table.table,
+                   gtemp : Temp.temp Graph.Table.table,
+                   moves : (Graph.node * Graph.node) list}
+
+    Finally, we color the interference graph with the list of colors
+    (registers).  This is done through the color function:
+
+    val color : {interference : Liveness.igraph,
+                 initial : allocation,
+                 registers : R.register list} -> allocation
+
+* CodeGen part 2 (after RegAlloc)
+
+    Finally, we implement the procEntryExit function which is used to assign
+    and map the "dummy" registers to the ones specified from RegAlloc.
+
+    val procEntryExit : {name : Temp.label,
+                         body : (Assem.instr * Temp.temp list) list,
+                         allocation : R.register Temp.Table.table,
+                         formals : Temp.temp list,
+                         frame : Frame.frame} -> Assem.instr list
+
+    We get the name from ItreeGen, body from CodeGen * RegAlloc, body from
+    ItreeGen, and frame from ItreeGen.
+
+    Formals are not passed in Assembly language (they are on the stack).
+
+    It is worth noting that this process is only necessary for a
+    CodeGen.Frame.PROC; a CodeGen.Frame.DATA is just a string literal
+    and simply uses a .string reference.
+
+=======================================================================
+
+The files used in this assignment were:
+
+ canon.sml          --- (see Appel Chapter 8), unmodified
+   The canon.sml file is provided for us and did not need to be modified. The
+   warnings are okay (not every possible pattern is matched) but I didn't want
+   to spend extra time fixing them (it's fine as long as ItreeGen works).
+
+ assem.sml          --- Add directives - translate string to assem
+   We can use this function for debugging the assembly and adding
+   the prologue and epilogue statements and comments.
+
+ register.sml       --- all machine-dependent register details should
+                        be defined here.
+
+   Resources used for looking up x86 Intel registers:
+   https://en.wikibooks.org/wiki/X86_Assembly/X86_Architecture
+
+   To the register signature, I added the EDI and ESI registers.
+   I am using the 8 x86 registers as defined by
+     eax, ebp, esp, ebx, ecx, edx, edi, and esi.
+   I also added two additional declarations accessible by outside functions:
+     val geninitalloc - prepare an initial coloring given some
+                        (temp, reg) paris and an initial table. This should
+                        be used in RegAlloc as the inital allocation.
+     val usableregs   - list of registers that are usable by RegAlloc. This
+                        is equal to [eax, ebx, edi, esi] + pseudo-registers.
+
+   For the RV (return value)  register, eax is used;
+   For the FP (frame pointer) register, ebp is used;
+   For the SP (stack pointer) register, esp is used;
+
+   The rest of the registers (ebx, ecx, edx, edi, esi) are represented as
+   their uppercase form (EBX, ECX, EDX, EDI, ESI). Note that ECX and EDX
+   are reserved for use with the pseudo-registers, popping and pushing.
+
+   Other variables used here:
+     val NPSEUDOREGS = 256;           used to be using 128, 256 should be good?
+     val localsBaseOffset : int = (4 * NPSEUDOREGS) - 4;  interface w/ItreeGen
+     val paramsBaseOffset : int = 8;                      interface w/ItreeGen
+
+ codegen.sml        --- implement your munchExp, munchStm, procEntryExit,
+                        etc. here.
+
+   Modified functions (of the ones given):
+     mapdsts:
+       Some of the operands were slightly changed for correct register
+       naming (the % in AT&T syntax).
+
+     mapInstrs:
+       Originally, we matched mapInstr(instr) for a fallthrough, and it
+       said that "we never generate these!" This isn't necessarily true,
+       though, so we convert move instructions into oper instructions
+       without a jump.
+
+   New functions added:
+     printList:
+       Print out a list of assembly instructions.
+
+     codegen:
+       The main bulk of the assignment, see above.
+
+       emit: Small function to add instructions to the list.
+       pushregs/popregs: add registers in function call and remove them
+       munchStm: munch a statement
+       munchExp: munch an expression
+
+     string:
+       Convert a label into an assembly instruction.
+
+     lookTemp:
+       Look up a Temp in a table.
+
+     procEntryExit: adds prologue, epilogue, and other things. See above.
+
+=======================================================================
+

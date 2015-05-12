@@ -1,0 +1,40 @@
+CPSC 421 SPRING 2015
+Assignment #7
+Student: Lien Tran BR 2016
+
+MODULE: REGALLOC
+In collaboration with: IG4 and CG1
+Previous module for as6: IG5
+
+FILES & FEATURES
+makegraph.sml: 
+Set up flowgraph (quite straight forward).
+
+liveness.sml: 
+Implemented 10.4 algorithm (forward iteration) in Appel.
+
+regalloc.sml: 
+Implemented 2 main functions, simplify and select.
+Created a table to keep track of edges being removed from graph,
+instead of directly modifying the igraph.
+
+
+PROGRESS
+Significantly easier than ItreeGen, though I started a bit late.
+There wasn't anywhere nearly as many bugs as in ItreeGen,
+though I did have one that made the difference between failing
+all tests and passing all of them--I used foldr instead of foldl. 
+I still do not understand how this changed anything because I 
+thought both would have the same effect. I am glad, however, that
+I discovered this bug at all.
+
+The current submitted version does not have my IG5, but I will continue
+working on it for as much as I can to fix the 2-3 bugs that remain. 
+I may submit another version later (within the next 1-2 days) with my IG5,
+purely for entertainment and fulfillment reasons. 
+
+NOTE
+I am passing all public test cases in the as6/tests folder.
+Please let me know if this isn't the case. I had a hard time
+managing versions of my compiler and might have accidentlly
+copied wrong things.

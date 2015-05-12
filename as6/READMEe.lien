@@ -1,0 +1,29 @@
+CPSC 421 Compilers and Interpreters
+Zhong Shao, Spring 2015
+Student: Lien Tran BR Class of 2016
+
+ITREEGEN MODULE
+
+Specifics
+Error handling: generates Tr.CONST 0 for most errors by calling nilExp. 
+Standard functions: imported in outermost level
+For loops: handled with let and while
+Breaks: pass the break label around
+If-then and If-then-else expressions handled concurrently 
+Made some changes to runtime.c to make things easier for myself (not for integration)
+
+Features
+- Nil checks
+- Array bound checks
+- Int and string comparisons
+- Nested functions
+- Escaping local variables
+
+Merged with CG1 and RAY
+
+On the process
+I did not realize how many problems would arise one integration with other modules started. After having written code for both frame and translation, integration forced me to realize a lot of loop holes in my logic and change the structure of the code in significant ways. Although this was very stressful and strenuous, I enjoyed the assignment and learned a lot from it. I would have like a bit more serious warning about how much work this assignment would be, so that I could have started coding earlier. I spent a lot of time reading the book and piecing things together instead of coding, the only realized that through coding I understood the problem much faster. 
+
+I had some bugs that were pretty much impossible to debug. In particular, I had one or two that I literally spent two days working on chasing them down, simply because of the magnitude of code involved that made the task very difficult and the subtleties of integration that I did not understand. Had I not run into these bugs my experience with this assignment would have been much more pleasant.
+
+I wish that there was more support available for this assignment. 

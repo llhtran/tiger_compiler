@@ -1,0 +1,146 @@
+(* CPSC 421 Compilers and Interpreters Spring 2015*)
+(* Student: Lien Tran BR 2016 *)
+(* Assignment #1 due February 4th 2015 *)
+
+(* I have one shift/reduce conflict for record creation, where the grammar
+  doesn't know whether to shift an LBRACE or reduce ID . to an lvalue. 
+  Since this case only happens with record creation and the default 
+    behavior is to shift, this is actually want we want to do in all cases. 
+      It doesn't make sense to reduce the name of a record to an lvalue. *)
+
+%%
+%term
+    EOF 
+  | ID of string
+  | INT of int | STRING of string 
+  | COMMA | COLON | SEMICOLON | LPAREN | RPAREN | LBRACK | RBRACK 
+  | LBRACE | RBRACE | DOT 
+  | PLUS | MINUS | TIMES | DIVIDE | EQ | NEQ | LT | LE | GT | GE
+  | AND | OR | ASSIGN
+  | ARRAY | IF | THEN | ELSE | WHILE | FOR | TO | DO | LET | IN | END | OF 
+  | BREAK | NIL
+  | FUNCTION | VAR | TYPE 
+  | UMINUS
+
+%nonterm  exp | program | lvalue | lvalue2
+  | dec | tydec | ty | tyfields | tyfields2 | vardec | fundec
+  | func | record | record2 | args | args2
+  | expseq | expseq2 
+
+
+%pos int
+%verbose
+%start program
+%eop EOF
+%noshift EOF
+
+%left ASSIGN
+%left THEN DO OF 
+%right ELSE
+%left OR 
+%left AND
+%nonassoc EQ NEQ LT LE GT GE 
+%left PLUS MINUS
+%left TIMES DIVIDE
+%left UMINUS
+
+%name Tiger
+
+%keyword WHILE FOR TO BREAK LET IN END FUNCTION VAR TYPE ARRAY IF THEN ELSE 
+	DO OF NIL
+
+%prefer THEN ELSE LPAREN
+
+%value ID ("bogus")
+%value INT (1)
+%value STRING ("")
+
+%%
+
+program	: exp ()
+
+lvalue: ID lvalue2 ()   (* creating this state to reduce conflict
+                        with states that start with ID, though
+                        doesn't work for record creation *)
+
+lvalue2 : ()
+  | DOT lvalue ()
+  | LBRACK exp RBRACK lvalue2 () 
+
+exp : lvalue ()
+  | NIL ()                        (* some terminals *)
+  | LPAREN expseq RPAREN ()
+  | INT ()
+  | STRING ()
+  | MINUS exp   %prec UMINUS ()
+
+  | exp PLUS exp ()               (* some operations *)
+  | exp MINUS exp ()
+  | exp TIMES exp ()
+  | exp DIVIDE exp ()
+  | exp EQ exp ()
+  | exp NEQ exp ()
+  | exp LT exp ()
+  | exp LE exp ()
+  | exp GT exp ()
+  | exp GE exp ()
+  | exp AND exp ()
+  | exp OR exp ()
+
+
+  | LET dec IN expseq END () (* let in end *)
+  | IF exp THEN exp ()
+  | IF exp THEN exp ELSE exp ()
+  | WHILE exp DO exp ()
+  | FOR lvalue ASSIGN exp TO exp DO exp ()
+  | lvalue ASSIGN exp ()
+  | BREAK ()
+  | ID LBRACE record RBRACE ()      (* record creation, shift by default *) 
+  | ID LBRACK exp RBRACK OF exp ()  (* array creation *)
+  | func ()
+
+func : ID LPAREN args RPAREN ()     (* handling function calls *)
+
+args : ()                           (* passing one or more arguments *)
+  | exp args2 ()
+
+args2 : ()
+  | COMMA exp args2 ()
+
+record : ()                         (* helpers for record creation *)
+  | ID EQ exp record2 ()
+
+record2 : ()
+  | COMMA ID EQ exp record2 ()
+
+expseq : ()                         (* expression sequences *)
+  | exp expseq2 ()                  (* specifically for let in end *)
+                                    (* can handle empty sequences *)
+expseq2 : ()
+  | SEMICOLON exp expseq2 ()
+
+dec : ()                            (* declarations for let *)
+  | LBRACE dec RBRACE ()
+  | tydec dec ()
+  | vardec dec ()
+  | fundec dec ()
+
+
+tydec : TYPE ID EQ ty ()            (* type declarations *)
+
+ty : ID ()
+  | LBRACE tyfields RBRACE ()
+  | ARRAY OF ID ()
+
+tyfields : ()
+  | ID COLON ID tyfields2 ()
+
+tyfields2 : ()
+  | COMMA ID COLON ID tyfields2 ()
+
+vardec : VAR ID ASSIGN exp ()       (* variable declarations *)
+  | VAR ID COLON ID ASSIGN exp () 
+
+fundec : FUNCTION ID LPAREN tyfields RPAREN EQ exp ()       (* function *)
+  | FUNCTION ID LPAREN tyfields RPAREN COLON ID EQ exp ()   (* declarations *)
+

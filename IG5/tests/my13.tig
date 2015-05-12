@@ -1,0 +1,6 @@
+let
+	type arrtype = array of int
+	var a:arrtype:=arrtype[10] of 7
+in
+	a[10]
+end

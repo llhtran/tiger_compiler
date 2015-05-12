@@ -1,0 +1,7 @@
+let
+	var a := 3
+	var b := 3
+in
+	if a = b then print("YES") 
+	else print("NO")
+end 

@@ -1,0 +1,19 @@
+(* CPSC 421 Compilers and Interpreters Spring 2015 *)
+(* Student: Lien Tran BR 2016 *)
+(* Assignment #6a due March 30th 2015 *)
+(* README part a *)
+
+I. What have you done so far?
+I've read the book chapters for ItreeGen and started looking at the code to understand what it does. I have not hardcoded anything, though I am attempting to make the code work for extremely simple inputs, ie. file contains "5" for int expression. Since it doesn't work yet, the files I submitted are the templates, plus some extra comments. 
+
+II. How would other groups use your code?
+Right now, by time traveling to 4/15. 
+More seriously, I will update this README and as soon as something is working.
+
+III. What assumptions have you made?
+None so far. 
+
+IV. What desirable features would you like other groups to work on?
+I have not thought about this yet, but open to suggestions. 
+
+V. If you've changed more files than required, explain here. 

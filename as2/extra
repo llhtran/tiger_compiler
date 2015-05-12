@@ -1,0 +1,27 @@
+(* CPSC 421 Compilers and Interpreters Spring 2015*)
+(* Student: Lien Tran BR 2016 *)
+(* Assignment #1 due February 4th 2015 *)
+(* tiger vs Java lexer *)
+
+CHANGES TO TIGER LEXER IN ORDER TO WORK WITH JAVA
+*****   OVERALL CHANGES   *****
+- More tokens operators. Java has 38. 
+- More tokens for types, such as floats, double
+- More tokens for classes
+- More tokens for keywords, ie. try, catch, finally
+- Disable nesting for comments, as well as add single-line comments
+- Add hexadecimal, binary values
+
+
+***** DEALING WITH UNICODE *****
+ML-Lex only supprts 8-bit characters, which a insufficient to work with
+UTF-16 or UTF-32. To emulate 16-bit or 32-bit character support, we can try
+using 2 or 4-tuples of 8-bit encodings. There are articles online that give an 
+idea of how this could be done. 
+
+http://rogerprice.org/ug/ug.pdf (from page 45)
+
+The Java compiler seems to have its own way of dealing with Unicode in
+particular through using the escape sequence \u to translate to and from 
+ASCII chars. If we implement hexadecimal values as mentioned above, we would 
+be able to handle UTF-16 as is required by the Java compiler. 

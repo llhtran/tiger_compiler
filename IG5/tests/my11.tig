@@ -1,0 +1,6 @@
+let
+	var x := 5
+	function px() = if x = 5 then print("awesome\n") else print("fuck\n")
+in
+	px()
+end

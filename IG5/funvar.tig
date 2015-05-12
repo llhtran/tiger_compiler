@@ -1,0 +1,10 @@
+let
+	function hey() = 
+	let
+		var x := 5
+	in
+		if x = 5 then print("Lien\n")
+	end
+in
+	hey()
+end

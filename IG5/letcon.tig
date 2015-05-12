@@ -1,0 +1,5 @@
+let
+	var x := 5
+in
+	if x = 4 then print("Lein\n") else print("fuck\n") 
+end

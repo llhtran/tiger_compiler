@@ -1,0 +1,11 @@
+(* CPSC 421 Compilers and Interpreters Spring 2015 *)
+(* Student: Lien Tran BR 2016 *)
+(* Assignment #6d due April 11th 2015 *)
+(* README part d *)
+
+I have written most of Translate and most of Frames.
+Everything compiles. I have not started testing yet,
+but things should work for most types of expressions.
+Frames, on the other hand, is a work in progress. I
+have most of it coded up already. I am finishing up
+with static links and and calculating maxargs.

@@ -1,0 +1,29 @@
+What is unit ref, exactly? How does it make sense to pass a unir ref around?
+What is name equivalence?
+What to put for pos for transty of records?
+Transparent signature matching with >, opaque without >?
+
+Should there be separate cases for NONE and SOME for transdec VarDec?
+WHat should "enterparams" in Fundec be doing?
+Why is FuntionDec not working? What is A.FunctionDec do to a list?
+How to define a group for operators ie. either "=" or "<>", group for
+integer operators "+" "-" "*" "/", etc.
+Is exp=0 always? 
+How to structure transexp with other functions? using recursive functions
+is okay? Is there a better way?
+Is there a better way to test left right of same datatype?
+Do we need array bounds check for arrays? 
+
+IMPORTANT
+How to deal with args in A.XXX(args)? Want to be recursive but type mismatch
+at all levels but first.
+
+Are exp always = ()?
+What is the role of unique? 
+How to check T.RECORD of same type? do I go through list and compare
+corresponding list elements? Is it possible for 2 lists to have the same
+types but ordered differently, in which case I'll have to do a different way
+of checking? 
+How to handle function call? 
+
+Can compare T.RECORD with T.NIL?

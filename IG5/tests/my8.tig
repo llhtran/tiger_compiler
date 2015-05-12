@@ -1,0 +1,10 @@
+let
+	var N:= 5
+	function printall(c:int) = 
+		(if c = 3 then print("c=3\n");
+		if N=5 then print("yes\n"); 
+		for i := c to N do print("Lien\n"))
+in
+	if N=5 then print("N=5\n");
+	printall(3)
+end

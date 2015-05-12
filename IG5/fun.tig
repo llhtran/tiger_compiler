@@ -1,0 +1,5 @@
+let
+	function nfactor(n:int):int = n+3
+in
+	if nfactor(3)=6 then print("YAY\n")
+end

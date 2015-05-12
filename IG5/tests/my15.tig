@@ -1,0 +1,5 @@
+let
+	function h() = 5
+in
+	h()
+end
